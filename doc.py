@@ -27,7 +27,7 @@ def index_document(client, index_name):
 #add this method to the method above when romano is done
 def get_ingredients(recipe):
     ingredients = recipe[ingredients]
-
+    
     for ingredient in ingredients:
         print(ingredient['displayText'])
     return
