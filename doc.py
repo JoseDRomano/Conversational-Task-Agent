@@ -1,9 +1,9 @@
 import json
+import pickle
 
 def index_document(client, index_name, data):
     count = 0
     for key, recipe in data.items():
-        count += 1
 
         title = recipe['displayName']
 
@@ -14,8 +14,24 @@ def index_document(client, index_name, data):
             'duration': recipe['totalTimeMinutes'],
             'steps': get_steps(recipe)
         }
-        resp = client.index(index=index_name, id=count, body=doc)
+        resp = client.index(index=index_name, body=doc)
         print(resp['result'] + ": " + title)
+
+
+def index_embeddings(client, index_name, titles):
+
+    with open('embeddings.pickle', 'rb') as f:
+            embs = pickle.load(f)
+    
+    
+    for i in range(len(embs)):
+        response = client.index(index=index_name, body={"title": titles[i], "title_embedding": embs[i].numpy()})
+        print(response['result'] + ": " + titles[i])
+    
+
+    
+
+
 
 
 def get_ingredients(recipe):
