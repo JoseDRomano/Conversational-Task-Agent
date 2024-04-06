@@ -102,7 +102,20 @@ def search_titleEmbedding(client, index_name, emb_query):
     }
     client_search(client, index_name, query_denc)
 
-
+def search_title_descEmbedding(client, index_name, emb_query):
+    query_denc = {
+        'size': 5,
+        '_source': ['title', 'description'],
+        "query": {
+            "knn": {
+                "descs_embedding": {
+                    "vector": emb_query[0].numpy(),
+                    "k": 2
+                } 
+            }
+        }
+    }
+    client_search(client, index_name, query_denc)   
 
 
 

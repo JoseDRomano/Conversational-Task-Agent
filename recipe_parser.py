@@ -1,5 +1,7 @@
 import json as json
 import pickle
+import random
+import string
 
 def get_recipes():
     with open("./recipes/recipes_data.json", "r") as read_file:
@@ -14,6 +16,20 @@ def get_recipe_titles():
     with open('recipe_titles.pkl', 'wb') as f:
         pickle.dump(titles, f)
     return titles
+
+def get_recipe_descs():
+    descs = []
+    for key in get_recipes():
+        if(get_recipes()[key]['description'] == None):
+            #append random string of length 10
+            descs.append(''.join(random.choices(string.ascii_uppercase + string.digits, k=10)))
+            
+        else:
+            descs.append(get_recipes()[key]['description'])
+    with open('recipe_descs.pkl', 'wb') as f:
+        pickle.dump(descs, f)
+    return descs
+
 
 def get_ingredients(recipe):
     ingredients = []

@@ -32,6 +32,19 @@ def create_index(client, index_name):
                }
             },
             },
+             "descs_embedding": {
+                "type":"knn_vector",
+            "dimension": 768,
+            "method":{
+               "name":"hnsw",
+               "space_type":"innerproduct",
+               "engine":"faiss",
+               "parameters":{
+                  "ef_construction":256,
+                  "m":48
+               }
+            },
+            },
             "ingredients": {
                 "type": "keyword"
             },
@@ -70,14 +83,22 @@ def index_document(client, index_name, data):
         resp = client.index(index=index_name, body=doc)
         print(resp['result'] + ": " + title)
 
-def index_embeddings(client, index_name, titles):
-    with open('embeddings.pickle', 'rb') as f:
-        embs = pickle.load(f)
+def index_titleEmbeddings(client, index_name, titles):
+    with open('title_embeddings.pickle', 'rb') as f:
+        title_embs = pickle.load(f)
     
-    for i in range(len(embs)):
-        response = client.index(index=index_name, body={"title": titles[i], "title_embedding": embs[i].numpy()})
+    for i in range(len(title_embs)):
+        response = client.index(index=index_name, body={"title": titles[i], "title_embedding": title_embs[i].numpy()})
         print(response['result'] + ": " + titles[i])
 
+
+def index_descEmbeddings(client, index_name, descs):
+    with open('desc_embeddings.pickle', 'rb') as f:
+        descs_embs = pickle.load(f)
+    
+    for i in range(len(descs_embs)):
+        response = client.index(index=index_name, body={"title": descs[i], "descs_embedding": descs_embs[i].numpy()})
+        print(response['result'] + ": " + descs[i])
 
 
 ## Auxiliary functions
@@ -93,6 +114,12 @@ def get_steps(recipe):
     for step in recipe['instructions']:
         steps.append(step['stepText'])
     return steps
+
+def get_recipe(data,title):
+    for key in data:
+        if data[key]['displayName'] == title:
+            return data[key]
+    return None
 
 
 
