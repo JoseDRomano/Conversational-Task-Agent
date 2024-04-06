@@ -33,15 +33,3 @@ def index_embeddings(client, index_name, titles):
 
 
 
-
-def get_ingredients(recipe):
-    ingredients = []
-    for ingredient in recipe['ingredients']:
-        ingredients.append(ingredient['ingredient'])
-    return ingredients
-
-def get_steps(recipe):
-    steps = []
-    for step in recipe['instructions']:
-        steps.append(step['stepText'])
-    return steps
