@@ -84,7 +84,7 @@ def index_document(client, index_name, data):
         print(resp['result'] + ": " + title)
 
 def index_titleEmbeddings(client, index_name, titles):
-    with open('title_embeddings.pickle', 'rb') as f:
+    with open('./pickle_files/title_embeddings.pickle', 'rb') as f:
         title_embs = pickle.load(f)
     
     for i in range(len(title_embs)):
@@ -93,7 +93,7 @@ def index_titleEmbeddings(client, index_name, titles):
 
 
 def index_descEmbeddings(client, index_name, descs):
-    with open('desc_embeddings.pickle', 'rb') as f:
+    with open('./pickle_files/desc_embeddings.pickle', 'rb') as f:
         descs_embs = pickle.load(f)
     
     for i in range(len(descs_embs)):

@@ -13,7 +13,7 @@ def get_recipe_titles():
     titles = []
     for key in get_recipes():
         titles.append(get_recipes()[key]['displayName'])
-    with open('recipe_titles.pkl', 'wb') as f:
+    with open('./pickle_files/recipe_titles.pkl', 'wb') as f:
         pickle.dump(titles, f)
     return titles
 
@@ -26,7 +26,7 @@ def get_recipe_descs():
             
         else:
             descs.append(get_recipes()[key]['description'])
-    with open('recipe_descs.pkl', 'wb') as f:
+    with open('./pickle_files/recipe_descs.pkl', 'wb') as f:
         pickle.dump(descs, f)
     return descs
 
