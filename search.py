@@ -66,7 +66,7 @@ def search_titleIngredients_bool(client, index_name, qtxt):
                 "must": [
                 {
                         "match": {
-                        "description": qtxt,
+                        "ingredients": qtxt,
                         }   
                 }
                 ],
@@ -74,7 +74,7 @@ def search_titleIngredients_bool(client, index_name, qtxt):
                 {
                     "multi_match": {
                         "query": qtxt,
-                        "fields": ["title", "description"]
+                        "fields": ["title", "ingredients"]
                     }
                 }
                 ]
