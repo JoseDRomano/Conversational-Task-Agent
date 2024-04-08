@@ -1,5 +1,6 @@
 import pickle
 
+# Function to create an index with specified settings and mappings
 def create_index(client, index_name):
     index_body = {
     "settings": {
@@ -64,12 +65,14 @@ def create_index(client, index_name):
         print('\nCreating index:')
         print(response)
 
+# Function to delete an index
 def delete_index(client, index_name):
     response = client.indices.delete(
         index = index_name
     )
     print(response) 
 
+# Function to index document data into OpenSearch
 def index_document(client, index_name, data):
     for key, recipe in data.items():
         title = recipe['displayName']
@@ -83,6 +86,7 @@ def index_document(client, index_name, data):
         resp = client.index(index=index_name, body=doc)
         print(resp['result'] + ": " + title)
 
+# Function to index title embeddings into OpenSearch
 def index_titleEmbeddings(client, index_name, titles):
     with open('./pickle_files/title_embeddings.pickle', 'rb') as f:
         title_embs = pickle.load(f)
@@ -91,30 +95,33 @@ def index_titleEmbeddings(client, index_name, titles):
         response = client.index(index=index_name, body={"title": titles[i], "title_embedding": title_embs[i].numpy()})
         print(response['result'] + ": " + titles[i])
 
-
+# Function to index description embeddings into OpenSearch
 def index_descEmbeddings(client, index_name, descs):
     with open('./pickle_files/desc_embeddings.pickle', 'rb') as f:
         descs_embs = pickle.load(f)
     
     for i in range(len(descs_embs)):
-        response = client.index(index=index_name, body={"title": descs[i], "descs_embedding": descs_embs[i].numpy()})
+        response = client.index(index=index_name, body={"description": descs[i], "descs_embedding": descs_embs[i].numpy()})
         print(response['result'] + ": " + descs[i])
 
 
 ## Auxiliary functions
 
+# Auxiliary function to extract ingredients from a recipe
 def get_ingredients(recipe):
     ingredients = []
     for ingredient in recipe['ingredients']:
         ingredients.append(ingredient['ingredient'])
     return ingredients
 
+# Auxiliary function to extract steps from a recipe
 def get_steps(recipe):
     steps = []
     for step in recipe['instructions']:
         steps.append(step['stepText'])
     return steps
 
+# Auxiliary function to retrieve a recipe by its title
 def get_recipe(data,title):
     for key in data:
         if data[key]['displayName'] == title:

@@ -3,12 +3,13 @@ import pickle
 import random
 import string
 
+# Function to load recipes from a JSON file
 def get_recipes():
     with open("./recipes/recipes_data.json", "r") as read_file:
         data = json.load(read_file)
     return data
 
-
+# Function to retrieve recipe titles and store them in a pickle file
 def get_recipe_titles():
     titles = []
     for key in get_recipes():
@@ -17,6 +18,7 @@ def get_recipe_titles():
         pickle.dump(titles, f)
     return titles
 
+# Function to retrieve recipe descriptions and store them in a pickle file
 def get_recipe_descs():
     descs = []
     for key in get_recipes():
@@ -31,12 +33,14 @@ def get_recipe_descs():
     return descs
 
 
+# Auxiliary function to extract ingredients from a recipe
 def get_ingredients(recipe):
     ingredients = []
     for ingredient in recipe['ingredients']:
         ingredients.append(ingredient['ingredient'])
     return ingredients
 
+# Auxiliary function to extract steps from a recipe
 def get_steps(recipe):
     steps = []
     for step in recipe['instructions']:
