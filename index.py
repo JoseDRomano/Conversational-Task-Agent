@@ -14,7 +14,6 @@ def create_index(client, index_name):
   },
     "mappings": {
         "properties": {
-            "title_sentence_transformer": {"type": "dense_vector", "dims": 768},
             "title": {
                 "type": "text"
             },
