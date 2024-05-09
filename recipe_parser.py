@@ -23,14 +23,22 @@ def get_recipe_descs():
     descs = []
     for key in get_recipes():
         if(get_recipes()[key]['description'] == None):
-            #append random string of length 10
+            #append random string of length 10 that starts with test
             descs.append(''.join(random.choices(string.ascii_uppercase + string.digits, k=10)))
-            
         else:
             descs.append(get_recipes()[key]['description'])
     with open('./pickle_files/recipe_descs.pkl', 'wb') as f:
         pickle.dump(descs, f)
     return descs
+
+# Function to retrieve recipe descriptions and store them in a pickle file
+def get_recipe_steps():
+    steps = []
+    for key in get_recipes():
+        steps.append(get_steps(get_recipes()[key]))
+    with open('./pickle_files/recipe_steps.pkl', 'wb') as f:
+        pickle.dump(steps, f)
+    return steps
 
 
 # Auxiliary function to extract ingredients from a recipe
