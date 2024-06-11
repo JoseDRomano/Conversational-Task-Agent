@@ -1,0 +1,48 @@
+digraph {
+   compound=true;
+   fontsize=14;
+   edge[weight=0.3, fontsize=12];
+   node[fontsize=13];
+   nodesep=1;
+   ranksep=0.5;
+   BackboneFlowDummyNode[style=invis, width=0, height=0, label=""];
+   ListOptionsFlowDummyNode[style=invis, width=0, height=0, label=""];
+   CuriosityFlowDummyNode[style=invis, width=0, height=0, label=""];
+   RecipeInfoFlowDummyNode[style=invis, width=0, height=0, label=""];
+   SubstitutionFlowDummyNode[style=invis, width=0, height=0, label=""];
+
+   subgraph cluster_BackboneFlow {
+      label = "BackboneFlow";
+      BackboneFlowDummyNode;
+      ChoiceState -> GreetState [label="DenyIntent"];
+      GreetState -> ChoiceState [label="ChooseIntent"];
+      ChoiceState -> StepState [label="AffirmIntent"];
+      StepState -> StepState [label="PreviousIntent\n NextIntent\n SpecifyStepIntent"];
+      StepState -> CompleteState [label="LastStepEvent\n GoodbyeIntent"];
+   }
+   subgraph cluster_ListOptionsFlow {
+      label = "ListOptionsFlow";
+      ListOptionsFlowDummyNode;
+      GreetState -> ListOptionsState [label="AskOptionsIntent"];
+      ChoiceState -> ListOptionsState [label="AskOptionsIntent"];
+   }
+   subgraph cluster_CuriosityFlow {
+      label = "CuriosityFlow";
+      CuriosityFlowDummyNode;
+      StepState -> PromptCuriosityState [label="PromptCuriosityEvent"];
+      PromptCuriosityState -> CuriosityState [label="AffirmIntent"];
+      BackboneFlowDummyNode -> CuriosityState [label="CuriosityIntent", ltail= "cluster_BackboneFlow"];
+   }
+   subgraph cluster_RecipeInfoFlow {
+      label = "RecipeInfoFlow";
+      RecipeInfoFlowDummyNode;
+      StepState -> ListIngredientsState [label="AskIngredientsIntent"];
+      StepState -> ListToolsState [label="AskToolsIntent"];
+      StepState -> PresentNutritionState [label="AskNutritionIntent"];
+   }
+   subgraph cluster_SubstitutionFlow {
+      label = "SubstitutionFlow";
+      SubstitutionFlowDummyNode;
+      StepState -> SubstitutionState [label="AskSubstitutionIntent"];
+   }
+}
