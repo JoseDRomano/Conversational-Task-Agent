@@ -39,7 +39,7 @@ def run(input):
         "IdentifyProcessIntent": ['What are the ingredients?', 'What is the cuisine type?', 'What is the meal type?','Which steps are there?', 'What is the recipe?', 'What is the recipe description?'],
         "OutOfScopeIntent": [],
         "SelectIntent": ['Which number?', 'What is the option?', 'Which option do you want to select?','What is the option number?'],
-        "YesIntent": ["Do you want to restart?","Do you want to continue?","Do you want to stop?","Do you want to select an option?","Do you want to go to the next step?",],
+        "YesIntent": ["Do you want to restart?","Do you want to continue?","Do you want to stop?","Do you want to select an option?","Do you want to go to the next step?"],
         "NoIntent": [ "Do you want to restart?","Do you want to continue?","Do you want to stop?","Do you want to select an option?","Do you want to go to the next step?"],
         "StartStepsIntent": ['What is the recipe?'],
         "NextStepIntent": ['Current Step Number'],
@@ -52,17 +52,18 @@ def run(input):
     nlp = pipeline('question-answering', model=model_name, tokenizer=model_name)
 
     if predicted_intent in intent_slot_mapping:
-        print('Intent: ' + predicted_intent + '\n')
+       # print('Intent: ' + predicted_intent + '\n')
         for slot in intent_slot_mapping[predicted_intent]:
             QA_input = {
                 'question': slot,
                 'context': input
             }
             res = nlp(QA_input)
-            print('Slot: ' + slot)
-            print('Slot Value: ' + str(res) + '\n')
+            #print('Slot: ' + slot)
+            #print('Slot Value: ' + str(res) + '\n')
     else:
-        print("Intent not found in mapping")
-        print("Intent: " + predicted_intent)
+        print("")
+        #print("Intent not found in mapping")
+        #print("Intent: " + predicted_intent)
 
     return predicted_intent

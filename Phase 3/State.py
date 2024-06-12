@@ -19,8 +19,10 @@ class State():
     def get_message(self):
         return self._message
     
+    def set_intent(self,intent):
+        self.current_Intent = intent
+        
     def get_intent(self):
-        self.current_Intent = intent(self.input)
         return self.current_Intent
     
     def isStateIntent(self):
