@@ -1,5 +1,5 @@
- 
-class AbstractState():
+import intent
+class State():
     
     
     def __init__(self,intents,message,name,tuple):

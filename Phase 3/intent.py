@@ -27,6 +27,7 @@ def predict_intent(model, tokenizer, user_input):
         return model.config.id2label[predicted_class_id]
 
 def run(input):
+    input = input.lower()
     # Intent detection
     data = load_data()
     model, tokenizer = create_model(data)
@@ -35,13 +36,16 @@ def run(input):
     # Slot filling
     intent_slot_mapping = {
         "GreetingIntent": ['What is the time of day', 'What is the name of the user?'],
-        "IdentifyProcessIntent": ['What are the ingredients?', 'What is the cuisine type?', 'What is the meal type?'],
+        "IdentifyProcessIntent": ['What are the ingredients?', 'What is the cuisine type?', 'What is the meal type?','Which steps are there?', 'What is the recipe?', 'What is the recipe description?'],
         "OutOfScopeIntent": [],
-        "YesIntent": [],
-        "NoIntent": [],
+        "SelectIntent": ['Which number?', 'What is the option?', 'Which option do you want to select?','What is the option number?'],
+        "YesIntent": ["Do you want to restart?","Do you want to continue?","Do you want to stop?","Do you want to select an option?","Do you want to go to the next step?",],
+        "NoIntent": [ "Do you want to restart?","Do you want to continue?","Do you want to stop?","Do you want to select an option?","Do you want to go to the next step?"],
         "StartStepsIntent": ['What is the recipe?'],
         "NextStepIntent": ['Current Step Number'],
         "StopIntent": ['What is the reason for stopping?'],
+        "RepeatIntent": ['Are you sure you want to restart?'],
+        "PreviousStepIntent": ['Current Step Number'],
     }
 
     model_name = "deepset/roberta-base-squad2"
